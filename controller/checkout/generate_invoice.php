@@ -1,18 +1,16 @@
 <?php
 session_start();
 include '../../libs/connection.php';
-require_once '../../tcpdf/tcpdf.php'; // Asegúrate de que esta ruta sea correcta
+require_once '../../tcpdf/tcpdf.php'; 
 
-// Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
     exit();
 }
 
-$id_venta = $_GET['id_venta']; // El ID de la venta se pasa como parámetro GET
+$id_venta = $_GET['id_venta']; 
 
 try {
-    // Obtener detalles de la venta
     $query_venta = "
         SELECT v.id_venta, v.fecha, v.monto_total, u.nombre, u.email, 
                d.departamento, d.distrito, d.direccion, d.n_direccion, d.telefono
@@ -30,7 +28,6 @@ try {
         throw new Exception("No se encontró la venta con ID: $id_venta");
     }
 
-    // Obtener detalles de los productos en la venta
     $query_detalle = "
         SELECT p.marca_producto, p.descripcion_producto, dv.cantidad, dv.precio_unitario 
         FROM detalle_venta dv
@@ -41,7 +38,6 @@ try {
     $stmt_detalle->execute();
     $result_detalle = $stmt_detalle->get_result();
 
-    // Crear PDF con TCPDF
     $pdf = new TCPDF();
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor('Tu Alpaca');
@@ -51,7 +47,6 @@ try {
 
     $pdf->AddPage();
 
-    // Encabezado
     $html = '<h1 style="text-align: center;">Boleta de Venta</h1>';
     $html .= '<p><strong>ID Venta:</strong> ' . $venta['id_venta'] . '</p>';
     $html .= '<p><strong>Fecha:</strong> ' . $venta['fecha'] . '</p>';
@@ -60,7 +55,6 @@ try {
     $html .= '<p><strong>Dirección:</strong> ' . $venta['direccion'] . ' N° ' . $venta['n_direccion'] . ', ' . $venta['distrito'] . ', ' . $venta['departamento'] . '</p>';
     $html .= '<p><strong>Teléfono:</strong> ' . $venta['telefono'] . '</p>';
 
-    // Detalles de los productos
     $html .= '<h2>Productos</h2>';
     $html .= '<table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
                 <thead>
@@ -89,10 +83,8 @@ try {
             </table>';
     $html .= '<h2>Total: S/ ' . number_format($venta['monto_total'], 2) . '</h2>';
 
-    // Agregar contenido al PDF
     $pdf->writeHTML($html, true, false, true, false, '');
 
-    // Ruta de guardado del PDF
     $pdf_directory = __DIR__ . '/../../public/pdf/';
     if (!is_dir($pdf_directory)) {
         mkdir($pdf_directory, 0777, true);
@@ -100,10 +92,8 @@ try {
     $file_name = 'boleta_venta_' . $id_venta . '.pdf';
     $file_path = $pdf_directory . $file_name;
 
-    // Guardar el PDF
     $pdf->Output($file_path, 'F');
 
-    // Responder con la ruta del PDF generado
     if (file_exists($file_path)) {
         echo json_encode(['success' => true, 'pdf_path' => '/public/pdf/' . $file_name]);
     } else {

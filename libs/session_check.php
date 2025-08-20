@@ -1,7 +1,6 @@
 <?php 
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario']) || !isset($_SESSION['user_id'])) {
     echo '
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

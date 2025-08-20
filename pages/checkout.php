@@ -156,11 +156,8 @@ require_once '../libs/session_check.php';
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Obtener subtotal y total desde localStorage
       const subtotal = localStorage.getItem('cartSubtotal') || '0.00';
       const total = localStorage.getItem('cartTotal') || '0.00';
-
-      // Actualizar los elementos en la tabla de resumen de compra
       document.querySelector('.subtotal .price-amount bdi').innerText = `S/. ${subtotal}`;
       document.querySelector('.order-total .price-amount bdi').innerText = `S/. ${total}`;
     });
@@ -172,7 +169,7 @@ require_once '../libs/session_check.php';
   <?php include '../templates/beneficios.php'; ?>
   <?php include '../templates/footer.php'; ?>
   <?php include '../templates/footer_scripts.php'; ?>
-  <script src="/public/js/checkout.js"></script> <!-- Incluye el script aquí -->
+  <script src="/public/js/checkout.js"></script>
 </body>
 
 </html>

@@ -1,8 +1,8 @@
 <?php
-// Conexión a la base de datos
+
 include '../libs/connection.php';
 
-// Consulta SQL para seleccionar 8 productos aleatorios de cualquier categoría
+
 $sql = "
     SELECT 
         id_producto AS id,
@@ -14,10 +14,10 @@ $sql = "
     LIMIT 8
 ";
 
-// Ejecutar la consulta
+
 $result = mysqli_query($conexion_db, $sql);
 
-// Almacenar los resultados en un arreglo
+
 $productos_mas_vendidos = [];
 
 if ($result && mysqli_num_rows($result) > 0) {
@@ -28,9 +28,9 @@ if ($result && mysqli_num_rows($result) > 0) {
     echo "No se encontraron productos más vendidos.";
 }
 
-// Cerrar la conexión
+
 mysqli_close($conexion_db);
 
-// Devolver los datos para su uso en el HTML
+
 return $productos_mas_vendidos;
 ?>

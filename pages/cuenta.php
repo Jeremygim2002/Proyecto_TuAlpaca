@@ -154,12 +154,12 @@
           text: 'Las contraseñas no coinciden. Por favor, intenta de nuevo.',
           confirmButtonText: 'Aceptar',
           customClass: {
-            confirmButton: 'btn-primary' // Aplica tu clase personalizada aquí
+            confirmButton: 'btn-primary' 
           }
         });
-        return false; // Detiene el envío del formulario
+        return false; 
       }
-      return true; // Permite enviar el formulario
+      return true; 
     }
   </script>
 

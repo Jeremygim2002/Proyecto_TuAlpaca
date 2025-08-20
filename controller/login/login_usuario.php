@@ -2,26 +2,26 @@
 session_start();
 include '../../libs/connection.php';
 
-// Capturar datos del formulario
+
 $email = mysqli_real_escape_string($conexion_db, $_POST['correo']);
 $contrasena = hash('sha512', $_POST['contrasena']);
 
-// Validación en la base de datos
+
 $validar_login = mysqli_query($conexion_db, "SELECT * FROM usuario WHERE email = '$email' AND contraseña = '$contrasena'");
 
 if (mysqli_num_rows($validar_login) > 0) {
     $fila = mysqli_fetch_assoc($validar_login);
     
-    // Almacenar datos en la sesión
-    $_SESSION['usuario'] = $fila['nombre'];  // Almacena el nombre del usuario
-    $_SESSION['email'] = $fila['email'];     // Almacena el correo electrónico
+
+    $_SESSION['usuario'] = $fila['nombre'];  
+    $_SESSION['email'] = $fila['email'];     
     $_SESSION['user_id'] = $fila['id_usuario']; 
     
-    // Redirigir al índice
+
     header("location: ../../pages/index.php");
     exit();
 } else {
-    // Mostrar error de inicio de sesión
+
     echo '
     <!DOCTYPE html>
     <html lang="es">

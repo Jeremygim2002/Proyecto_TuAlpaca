@@ -2,7 +2,6 @@
 session_start();
 header('Content-Type: application/json');
 
-// Verificar si el usuario tiene sesión activa como administrador
 if (!isset($_SESSION['admin_email']) || $_SESSION['admin_email'] !== 'admin@gmail.com') {
     echo json_encode(['success' => false, 'error' => 'No autorizado']);
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['admin_email']) || $_SESSION['admin_email'] !== 'admin@gmai
 
 include '../../libs/connection.php';
 
-// Validar el ID de la venta
 $id_venta = isset($_GET['id_venta']) ? intval($_GET['id_venta']) : 0;
 
 if ($id_venta <= 0) {
@@ -18,7 +16,6 @@ if ($id_venta <= 0) {
     exit();
 }
 
-// Consultar los detalles de la venta
 $query = "SELECT dv.id_producto, dv.cantidad, dv.precio_unitario, p.marca_producto 
           FROM detalle_venta dv
           INNER JOIN producto p ON dv.id_producto = p.id_producto

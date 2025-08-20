@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// Validar datos enviados
 $marca_producto = trim($_POST['marca_producto'] ?? '');
 $descripcion_producto = trim($_POST['descripcion_producto'] ?? '');
 $precio_producto = floatval($_POST['precio_producto'] ?? 0);
@@ -19,7 +18,6 @@ if (empty($marca_producto) || empty($descripcion_producto) || $precio_producto <
     exit();
 }
 
-// Insertar producto
 $query = "INSERT INTO producto (marca_producto, descripcion_producto, precio_producto, stock_producto, id_categoria_producto)
           VALUES (?, ?, ?, ?, ?)";
 $stmt = $conexion_db->prepare($query);

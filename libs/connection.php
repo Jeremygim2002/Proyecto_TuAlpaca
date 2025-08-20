@@ -1,5 +1,5 @@
 <?php
-// Conexión a la base de datos
+
 $conexion_db = mysqli_connect("localhost", "root", "", "db_tualpacanuevo");
 
 if (!$conexion_db) {

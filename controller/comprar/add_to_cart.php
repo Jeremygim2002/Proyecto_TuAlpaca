@@ -16,7 +16,6 @@ if (isset($data['id_usuario'], $data['id_producto'], $data['cantidad'])) {
     $id_producto = intval($data['id_producto']);
     $cantidad = intval($data['cantidad']);
 
-    // Verificar si el producto ya está en el carrito del usuario
     $query = "SELECT * FROM carrito WHERE id_usuario = ? AND id_producto = ?";
     $stmt = $conexion_db->prepare($query);
     $stmt->bind_param('ii', $id_usuario, $id_producto);
@@ -24,14 +23,12 @@ if (isset($data['id_usuario'], $data['id_producto'], $data['cantidad'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Si el producto ya está en el carrito, actualiza la cantidad
         $update_query = "UPDATE carrito SET cantidad = cantidad + ? WHERE id_usuario = ? AND id_producto = ?";
         $update_stmt = $conexion_db->prepare($update_query);
         $update_stmt->bind_param('iii', $cantidad, $id_usuario, $id_producto);
         $success = $update_stmt->execute();
         file_put_contents('php://stderr', "Update carrito: " . ($success ? "Éxito" : "Error") . "\n");
     } else {
-        // Insertar nuevo producto en el carrito
         $insert_query = "INSERT INTO carrito (id_usuario, id_producto, cantidad) VALUES (?, ?, ?)";
         $insert_stmt = $conexion_db->prepare($insert_query);
         $insert_stmt->bind_param('iii', $id_usuario, $id_producto, $cantidad);
@@ -39,7 +36,6 @@ if (isset($data['id_usuario'], $data['id_producto'], $data['cantidad'])) {
         file_put_contents('php://stderr', "Insert carrito: " . ($success ? "Éxito" : "Error") . "\n");
     }
 
-    // Obtener carrito actualizado
     $cart_query = "SELECT c.id_producto, c.cantidad, p.marca_producto, p.descripcion_producto, p.precio_producto 
                    FROM carrito c 
                    INNER JOIN producto p ON c.id_producto = p.id_producto 

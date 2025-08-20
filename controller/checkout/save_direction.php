@@ -2,13 +2,11 @@
 session_start();
 include '../../libs/connection.php';
 
-// Verificar si el usuario está autenticado
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
     exit();
 }
 
-// Captura los datos del formulario
 $data = json_decode(file_get_contents('php://input'), true);
 
 $departamento = $data['departamento'];
@@ -18,7 +16,6 @@ $n_direccion = $data['n_direccion'];
 $telefono = $data['telefono'];
 $notas = $data['notas'];
 
-// Insertar dirección en la base de datos
 $query = "INSERT INTO direccion (departamento, distrito, direccion, n_direccion, telefono, notas) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $conexion_db->prepare($query);
 $stmt->bind_param('ssssss', $departamento, $distrito, $direccion, $n_direccion, $telefono, $notas);

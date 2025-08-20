@@ -301,7 +301,6 @@
           });
       }
 
-      // Llamada inicial para actualizar la barra lateral y el encabezado
       updateCartDisplay();
     });
   </script>

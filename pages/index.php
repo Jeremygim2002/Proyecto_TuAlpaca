@@ -3,7 +3,6 @@
 <html lang="es">
 
 <head>
-  <!-- Incluir el contenido de head.php -->
   <?php include '../templates/head.php'; ?>
 </head>
 
@@ -280,11 +279,9 @@
             </div>
 
             <div class="tab-content" id="nav-tabContent">
-              <!-- Tab Ropa para Adultos -->
               <div class="tab-pane fade show active" id="nav-adultos" role="tabpanel">
                 <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                   <?php
-                  // Filtrar productos para "Ropa para Adultos"
                   $productos_adultos = array_filter($productos, function ($producto) {
                     return $producto['categoria'] === 'Ropa para Adultos';
                   });
@@ -359,12 +356,9 @@
                   ?>
                 </div>
               </div>
-
-              <!-- Tab Decoración para el Hogar -->
               <div class="tab-pane fade" id="nav-decoracion" role="tabpanel">
                 <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                   <?php
-                  // Filtrar productos para "Decoración para el Hogar"
                   $productos_decoracion = array_filter($productos, function ($producto) {
                     return $producto['categoria'] === 'Decoración para el Hogar';
                   });

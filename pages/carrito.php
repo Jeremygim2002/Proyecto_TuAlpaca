@@ -173,7 +173,7 @@ require_once '../libs/session_check.php';
           });
         }
 
-        cartTotal = subtotal * 0.82; // Calcular el total con IGV (18%)
+        cartTotal = subtotal * 0.82; 
 
 
         cartTotalElement.textContent = `S/. ${subtotal.toFixed(2)}`;
@@ -181,7 +181,7 @@ require_once '../libs/session_check.php';
         cartSubtotalElement.textContent = `S/. ${cartTotal.toFixed(2)}`;
         carttotalElement.textContent = `S/. ${subtotal.toFixed(2)}`;
         localStorage.setItem('cartSubtotal', cartTotal.toFixed(2));
-        localStorage.setItem('cartTotal', subtotal.toFixed(2)); // total con IGV
+        localStorage.setItem('cartTotal', subtotal.toFixed(2)); 
 
 
 
@@ -201,8 +201,8 @@ require_once '../libs/session_check.php';
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              window.location.reload(); // Recarga la página después de actualizar
-              loadCartFromServer(); // Recargar el carrito después de actualizar
+              window.location.reload(); 
+              loadCartFromServer(); 
             } else {
               console.error('Error al actualizar la cantidad');
             }
@@ -222,8 +222,8 @@ require_once '../libs/session_check.php';
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              window.location.reload(); // Recarga la página después de eliminar
-              loadCartFromServer(); // Recargar el carrito después de eliminar
+              window.location.reload(); 
+              loadCartFromServer(); 
             } else {
               console.error('Error al eliminar el producto');
             }

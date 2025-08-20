@@ -1,5 +1,5 @@
-<?php 
-require_once '../libs/session_check.php'; 
+<?php
+require_once '../libs/session_check.php';
 ?>
 
 
@@ -38,22 +38,18 @@ require_once '../libs/session_check.php';
     <!------------------ Seccion 2 (Comprar) ---------------------->
     <!-- ======================================================= -->
     <?php
-    // Incluye el archivo que carga los productos desde la base de datos
     $productos = include '../controller/insertar/insertar_productos.php';
 
-    // Obtén los filtros de categoría y precio desde la URL
     $categoria = $_GET['categoria'] ?? null;
     $precio = $_GET['precio'] ?? null;
     $orden = $_GET['orden'] ?? null;
 
-    // Filtra los productos por categoría
     if ($categoria) {
         $productos = array_filter($productos, function ($producto) use ($categoria) {
             return $producto['categoria'] === $categoria;
         });
     }
 
-    // Filtra los productos por rango de precio
     if ($precio) {
         $productos = array_filter($productos, function ($producto) use ($precio) {
             $precio_producto = $producto['precio_producto'];
@@ -68,7 +64,7 @@ require_once '../libs/session_check.php';
         });
     }
 
-    // Ordena los productos según el parámetro de orden
+
     if ($orden === 'low-high') {
         usort($productos, fn($a, $b) => $a['precio_producto'] <=> $b['precio_producto']);
     } elseif ($orden === 'high-low') {
@@ -78,7 +74,6 @@ require_once '../libs/session_check.php';
     <div class="shopify-grid">
         <div class="container-fluid">
             <div class="row g-5">
-                <!-- Sidebar de filtros -->
                 <aside class="col-md-2">
                     <div class="sidebar">
                         <div class="widget-product-categories pt-5">
@@ -219,8 +214,6 @@ require_once '../libs/session_check.php';
                         precio: parseFloat(this.dataset.precio),
                         cantidad: 1
                     };
-
-                    // Enviar datos al servidor vía AJAX
                     addToCartServer(product);
                 });
             });
@@ -243,9 +236,7 @@ require_once '../libs/session_check.php';
                     .then(data => {
                         if (data.success) {
                             localStorage.setItem('cart', JSON.stringify(data.cart));
-                            updateCartDisplay(); // Actualiza ambos: barra lateral y encabezado
-
-                            // Mostrar alerta de éxito con SweetAlert2
+                            updateCartDisplay(); 
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Producto añadido',
@@ -262,7 +253,7 @@ require_once '../libs/session_check.php';
                     });
             }
 
-            updateCartDisplay(); // Actualiza el carrito al cargar la página
+            updateCartDisplay();
         });
     </script>
 

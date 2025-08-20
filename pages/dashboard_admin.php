@@ -1,26 +1,26 @@
 <?php
-session_start(); // Iniciar sesión una sola vez al principio del archivo
+session_start(); 
 
-// Verificar si el usuario tiene una sesión activa como administrador
+
 if (!isset($_SESSION['admin_email']) || $_SESSION['admin_email'] !== 'admin@gmail.com') {
-    // Redirigir al login si no está autenticado
+
     header("Location: ../pages/login_admin.php");
     exit();
 }
 
-// Conexión a la base de datos
+
 include '../libs/connection.php';
 
-// Consultar productos
+
 $productos_query = "SELECT * FROM producto";
 $productos_result = $conexion_db->query($productos_query);
 
-// Consultar usuarios
+
 $usuarios_query = "SELECT * FROM usuario";
 $usuarios_result = $conexion_db->query($usuarios_query);
 
 
-// Consultar ventas
+
 $ventas_query = "SELECT v.id_venta, u.nombre AS usuario, m.descripcion AS metodo_pago, d.direccion, v.fecha, v.monto_total
                  FROM venta v
                  JOIN usuario u ON v.id_usuario = u.id_usuario
@@ -88,7 +88,6 @@ $ventas_result = $conexion_db->query($ventas_query);
                                     <select class="form-select" name="id_categoria_producto" required>
                                         <option value="" selected disabled>Seleccionar Categoría</option>
                                         <?php
-                                        // Consultar categorías de productos
                                         $categorias_query = "SELECT id_categoria_producto, descripcion FROM categoria_producto";
                                         $categorias_result = $conexion_db->query($categorias_query);
                                         while ($categoria = $categorias_result->fetch_assoc()):
@@ -230,7 +229,6 @@ $ventas_result = $conexion_db->query($ventas_query);
                                 </tr>
                             </thead>
                             <tbody id="detalle-venta-body">
-                                <!-- Los detalles se cargarán dinámicamente aquí -->
                             </tbody>
                         </table>
                     </div>
@@ -240,7 +238,6 @@ $ventas_result = $conexion_db->query($ventas_query);
     </div>
 
 
-    <!-- Modal para editar usuario -->
     <div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -277,7 +274,6 @@ $ventas_result = $conexion_db->query($ventas_query);
     <?php include '../templates/footer_admin.php'; ?>
     <?php include '../templates/footer_scripts.php'; ?>
     <script>
-        // Evitar que el administrador use el botón "Atrás" para salir del panel sin cerrar sesión
         history.pushState(null, null, location.href);
         window.onpopstate = function() {
             history.pushState(null, null, location.href);
@@ -299,7 +295,6 @@ $ventas_result = $conexion_db->query($ventas_query);
                 .then(data => {
                     if (data.success) {
                         alert('Producto agregado correctamente');
-                        // Actualizar la tabla dinámicamente
                         const nuevaFila = `
                     <tr>
                         <td>${data.producto_id}</td>
@@ -315,7 +310,7 @@ $ventas_result = $conexion_db->query($ventas_query);
                     </tr>
                 `;
                         document.getElementById('tabla-productos').insertAdjacentHTML('beforeend', nuevaFila);
-                        this.reset(); // Limpiar formulario
+                        this.reset(); 
                     } else {
                         alert(`Error: ${data.error}`);
                     }
@@ -329,13 +324,12 @@ $ventas_result = $conexion_db->query($ventas_query);
 
 
 
-        // Evitar que el administrador use el botón "Atrás" para salir del panel sin cerrar sesión
         history.pushState(null, null, location.href);
         window.onpopstate = function() {
             history.pushState(null, null, location.href);
         };
 
-        // Función para manejar el modal y mostrar los detalles de la venta
+
         function verDetalle(idVenta) {
             const modal = new bootstrap.Modal(document.getElementById('detalleVentaModal'));
             modal.show();
@@ -369,7 +363,6 @@ $ventas_result = $conexion_db->query($ventas_query);
 
 
 
-        // Función para abrir el modal y precargar los datos del usuario
         function editarUsuario(idUsuario) {
             fetch(`../controller/admin/fetch_usuario.php?id_usuario=${idUsuario}`)
                 .then(response => response.json())
@@ -389,7 +382,6 @@ $ventas_result = $conexion_db->query($ventas_query);
                 });
         }
 
-        // Formulario para guardar cambios de usuario
         document.getElementById('form-editar-usuario').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -402,14 +394,13 @@ $ventas_result = $conexion_db->query($ventas_query);
                 .then(data => {
                     if (data.success) {
                         alert('Usuario actualizado correctamente.');
-                        location.reload(); // Recargar página para reflejar cambios
+                        location.reload();
                     } else {
                         alert('Error al actualizar el usuario.');
                     }
                 });
         });
 
-        // Función para eliminar usuario
         function eliminarUsuario(idUsuario) {
             if (!confirm('¿Estás seguro de que deseas eliminar este usuario?')) return;
 
@@ -420,7 +411,7 @@ $ventas_result = $conexion_db->query($ventas_query);
                 .then(data => {
                     if (data.success) {
                         alert('Usuario eliminado correctamente.');
-                        location.reload(); // Recargar página para reflejar cambios
+                        location.reload(); 
                     } else {
                         alert('Error al eliminar el usuario.');
                     }

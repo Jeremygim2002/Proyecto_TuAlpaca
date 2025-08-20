@@ -1,15 +1,14 @@
 <?php
 include '../../libs/connection.php';
 
-// Obtener los valores del formulario
+
 $nombre_completo = mysqli_real_escape_string($conexion_db, $_POST['nombre_completo']);
 $correo = mysqli_real_escape_string($conexion_db, $_POST['correo']);
 $contrasena = mysqli_real_escape_string($conexion_db, $_POST['contrasena']);
 
-// Encriptar la contraseña
 $contrasena = hash('sha512', $contrasena);
 
-// Verificar si el correo ya existe en la base de datos
+
 $verificar_correo = mysqli_query($conexion_db, "SELECT * FROM usuario WHERE email = '$correo'");
 
 if (!$verificar_correo) {
@@ -60,7 +59,6 @@ if (mysqli_num_rows($verificar_correo) > 0) {
     ';
     exit();
 } else {
-    // Insertar el usuario en la base de datos
     $query = "INSERT INTO usuario (nombre, email, contraseña) VALUES('$nombre_completo', '$correo', '$contrasena')";
     $ejecutar = mysqli_query($conexion_db, $query);
 
@@ -151,6 +149,6 @@ if (mysqli_num_rows($verificar_correo) > 0) {
     }
 }
 
-// Cerrar la conexión
+
 mysqli_close($conexion_db);
 ?>
